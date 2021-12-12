@@ -18,5 +18,34 @@
     <ClCompile Include="arcode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="lib\wavelet.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\image.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\global.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\transform.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\image.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\wavelet.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\global.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\transform.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\coeffset.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

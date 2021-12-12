@@ -66,9 +66,6 @@ void Wavelet::transform1d (Real *input, Real *output, int size,
 
    while (nsteps--)  {
      if (lowSize <= 2 && symmetric == 1) {
-       warning ("Reduce # of transform steps or increase signal size");
-       warning ("  or switch to periodic extension");
-       error ("Low pass subband is too small");
      }
 
      // Transform
@@ -179,9 +176,6 @@ void Wavelet::transform2d (Real *input, Real *output, int hsize, int vsize,
 
    while (nsteps--)  {
       if ((hLowSize <= 2 || vLowSize <= 2) && sym_ext == 1) {
-	warning ("Reduce # of transform steps or increase signal size");
-	warning ("  or switch to periodic extension");
-	error ("Low pass subband is too small");
       }
 
       // Do a convolution on the low pass portion of each row

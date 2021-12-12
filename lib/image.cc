@@ -11,6 +11,8 @@
 // long as this notice stays attached to this software.
 //
 /*---------------------------------------------------------------------------*/
+#define _CRT_SECURE_NO_DEPRECATE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -31,9 +33,6 @@ Image::Image  (int new_hsize, int new_vsize) : hsize(new_hsize),
     vsize = hsize;
     
   value = new Real [hsize*vsize];
-  if (value == NULL)
-    error ("Can't allocate memory for image of size %d by %d\n",
-	   hsize, vsize);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -46,9 +45,6 @@ Image::Image (const Image& image)
    hsize = image.hsize;
    vsize = image.vsize;
    value = new Real [hsize*vsize];
-   if (value == NULL)
-     error ("Can't allocate memory for image of size %d by %d\n",
-	    hsize, vsize);
 
    for (i = 0; i < hsize*vsize; i++)
      value[i] = image.value[i];
@@ -67,9 +63,6 @@ Image::Image (const char *filename, int new_hsize, int new_vsize) :
     vsize = hsize;
     
   value = new Real [hsize*vsize];
-  if (value == NULL)
-    error ("Can't allocate memory for image of size %d by %d\n",
-	   hsize, vsize);
 
    loadRaw (filename);
 }
@@ -120,13 +113,12 @@ void Image::loadRaw (const char *filename)
    int i;
 
    infile = fopen (filename, "rb");
-   if (infile == NULL)
-      error ("Unable to open file %s\n", filename);
 
    buffer = new unsigned char [hsize * vsize];
 
-   if (fread (buffer, hsize*vsize, sizeof(unsigned char), infile) != 1)
-     error ("Read < %d chars when loading file %s\n", hsize*vsize, filename);
+   if (fread(buffer, hsize * vsize, sizeof(unsigned char), infile) != 1)
+   {
+   }
 
    for (i = 0; i < hsize*vsize; i++)
      value[i] = (Real)buffer[i];
@@ -147,8 +139,9 @@ void Image::saveRaw (const char *filename)
   
   outfile = fopen (filename, "wb+");
   if (outfile == NULL)
-    error ("Unable to open file %s\n", filename);
-  
+  {
+  }
+
   buffer = new unsigned char [hsize*vsize];
   
   for (i = 0; i < hsize*vsize; i++)
@@ -198,8 +191,6 @@ void Image::loadPGM (const char *filename)
   unsigned char ch = ' ';
 
   infile = fopen (filename, "rb");
-  if (infile == NULL)
-    error ("Unable to open file %s\n", filename);
 
   // Look for type indicator
   while ((ch != 'P') && (ch != '#')) { ch = fgetc(infile); }
@@ -215,13 +206,8 @@ void Image::loadPGM (const char *filename)
 
   if ( (hsize <= 0) && (vsize <= 0) ) {
     resize (xsize, ysize);
-    if (value == NULL)
-      error ("Can't allocate memory for image of size %d by %d\n",
-  	     hsize, vsize);
   } else {
-    if ((xsize != hsize) || (ysize != vsize)) {
-      error ("File dimensions conflict with image settings\n");
-    }
+    
   }
 
   if (ftype == '5') {
@@ -232,7 +218,6 @@ void Image::loadPGM (const char *filename)
   if (ftype == '6') {
     printf("File %s is of type PPM, is %d x %d with max gray level %d\n",
            filename, hsize, vsize, maxg);
-    error("Attempt to load a PPM as a PGM\n");
   }
 
   fclose(infile);
@@ -251,8 +236,9 @@ void Image::PGMLoadData (FILE *infile, const char *filename)
    long fp = -1*hsize*vsize;
    fseek(infile, fp, SEEK_END);
 
-   if (fread (buffer, hsize*vsize, sizeof(unsigned char), infile) != 1)
-     error ("Read < %d chars when loading file %s\n", hsize*vsize, filename);
+   if (fread(buffer, hsize * vsize, sizeof(unsigned char), infile) != 1)
+   {
+   }
 
    for (i = 0; i < hsize*vsize; i++)
      value[i] = (Real)buffer[i];
@@ -270,7 +256,8 @@ void Image::savePGM (const char *filename)
   
   outfile = fopen (filename, "wb+");
   if (outfile == NULL)
-    error ("Unable to open file %s\n", filename);
+  {
+  }
 
   fprintf(outfile, "P5\n#%s\n%d %d\n255\n", filename, hsize, vsize);
   PGMSaveData(outfile);
@@ -300,10 +287,10 @@ void Image::PGMSaveData (FILE* outfile)
 
 Real Image::compare_psnr (const Image *im2)
 {
-  if (im2->hsize != hsize || im2->vsize != vsize)
-    error ("Cannot compare images of different sizes (%dx%d and %dx%d)\n",
-	   hsize, vsize, im2->hsize, im2->vsize);
-  
+    if (im2->hsize != hsize || im2->vsize != vsize)
+    {
+    }
+
   Real total_error = 0.0;
   
   for (int i = 0; i < hsize*vsize; i++)
@@ -320,10 +307,10 @@ Real Image::compare_psnr (const Image *im2)
 
 Real Image::compare_mse (const Image *im2)
 {
-  if (im2->hsize != hsize || im2->vsize != vsize)
-    error ("Cannot compare images of different sizes (%dx%d and %dx%d)\n",
-	   hsize, vsize, im2->hsize, im2->vsize);
-  
+    if (im2->hsize != hsize || im2->vsize != vsize)
+    {
+    }
+
   Real total_error = 0.0;
   
   for (int i = 0; i < hsize*vsize; i++)

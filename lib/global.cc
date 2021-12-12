@@ -30,7 +30,6 @@ static int debug_file_open = FALSE;
 
 void no_more_memory ()
 {
-   error ("Out of memory");
 }
 
 /*---------------------------------------------------------------------------*/

@@ -5,6 +5,9 @@
 #include <process.h>
 #include "lib/wavelet.hh"
 #include "lib/transform.hh"
+#include <fstream>
+#include <iostream>
+#include <fstream>
 //для избежания переполнения:	MAX_FREQUENCY * (TOP_VALUE+1) < ULONG_MAX 
 //число MAX_FREQUENCY должно быть не менее, чем в 4 раза меньше TOP_VALUE 
 //число символов NO_OF_CHARS должно быть много меньше MAX_FREQUENCY 
@@ -199,11 +202,15 @@ void encode(void)
     int symbol;
     start_model();
     start_encoding();
+    int i = 0;
+
     while ((symbol = getc(in)) != EOF)
     {
+        ++i;
         encode_symbol(symbol);
         update_model(symbol);
     }
+
     encode_symbol(EOF_SYMBOL);
     done_encoding();
 }
@@ -213,6 +220,7 @@ void decode(void)
     int symbol;
     start_model();
     start_decoding();
+
     while ((symbol = decode_symbol()) != EOF_SYMBOL)
     {
         update_model(symbol);
@@ -222,6 +230,7 @@ void decode(void)
 
 void wavelet_transform(const char* file_path)
 {
+
     //auto hsize = image->hsize;
     //auto vsize = image->vsize;
     //auto nStages = 1;
@@ -234,11 +243,9 @@ void wavelet_transform(const char* file_path)
     //int nSets = transform->nSubbands;
 }
 
-
-
 void _cdecl main(int argc, char** argv)
 {
-        wavelet_transform(argv[2]);
+    wavelet_transform(argv[2]);
 
     printf("\nAlpha version of arithmetic Codec\n");
     if (argc != 4 || argv[1][0] != 'e' && argv[1][0] != 'd')

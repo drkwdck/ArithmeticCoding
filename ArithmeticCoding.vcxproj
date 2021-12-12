@@ -20,11 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="arcode.cpp" />
+    <ClCompile Include="ImageWrapper.cpp" />
     <ClCompile Include="lib\global.cc" />
     <ClCompile Include="lib\transform.cc" />
     <ClCompile Include="lib\wavelet.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ImageWrapper.h" />
     <ClInclude Include="lib\global.hh" />
     <ClInclude Include="lib\transform.hh" />
     <ClInclude Include="lib\wavelet.hh" />

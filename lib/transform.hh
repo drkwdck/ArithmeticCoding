@@ -14,13 +14,13 @@
 #ifndef _TRANSFORM_
 #define _TRANSFORM_
 #include "wavelet.hh"
-#include "image.hh"
+
 /*---------------------------------------------------------------------------*/
 
 class WaveletTransform 
 {
 public:
-  WaveletTransform  (Wavelet *wavelet, Image *image,
+  WaveletTransform  (Wavelet *wavelet, Real* value, int hsize, int vsize,
 		     int nsteps, int symmetric = -1);
   WaveletTransform  (Wavelet *wavelet, int hsize, int vsize, int
 		     nsteps = 0, int symmetric = -1);
@@ -31,9 +31,9 @@ public:
   
   WaveletTransform& operator= (const WaveletTransform &WaveletTransform);
   
-  void transform (Image *image, Wavelet *wavelet = NULL, 
+  void transform (Real* value, int hsize, int vsize, Wavelet *wavelet = NULL,
 		  int nsteps = 0, int symmetric = -1);
-  void invert    (Image *invertedImage);
+  void invert    (Real* value, int hsize, int vsize);
 
   void mallatToLinear (Real *mallat);
   void linearToMallat (Real *mallat);

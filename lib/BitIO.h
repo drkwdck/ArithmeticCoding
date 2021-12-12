@@ -9,11 +9,11 @@
 #define _BITIO_
 
 #include <stdlib.h>
-#include <iostream.h>
+#include <iostream>
 #include <assert.h>
 
 #define PRINTBITS 0
-
+using namespace std;
 
 // The BitIn object allows you to read bits out of an istream with
 //optional logging in ascii to an ostream.

@@ -18,16 +18,14 @@
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 
-WaveletTransform::WaveletTransform  (Wavelet *wavelet, Image *image, 
+WaveletTransform::WaveletTransform  (Wavelet *wavelet, Real* value, int hsize, int vsize,
 				     int nsteps, int symmetric) : 
   wavelet (wavelet), nsteps(nsteps), symmetric(symmetric)
 {
   value = NULL;
 
-  if (image != NULL) {
-    hsize = image->hsize;
-    vsize = image->vsize;
-    transform (image, wavelet, nsteps, symmetric);
+  if (value != NULL) {
+    transform (value, hsize, vsize, wavelet, nsteps, symmetric);
   } else {
     hsize = vsize = 0;
   }
@@ -144,20 +142,18 @@ void WaveletTransform::freeAll ()
 
 /*---------------------------------------------------------------------------*/
 
-void WaveletTransform::transform (Image *image, Wavelet *newWavelet, 
+void WaveletTransform::transform (Real* value, int hsize, int vsize, Wavelet *newWavelet,
 				  int steps, int isSymmetric)
 {
   // clear out old info and set up subband pointers
   freeAll ();
-  hsize = image->hsize;
-  vsize = image->vsize;
   wavelet = newWavelet;
   nsteps = steps;
   symmetric = isSymmetric;
   init ();
 
   Real *temp = new Real [hsize*vsize];
-  wavelet->transform2d (image->value, temp, hsize, vsize, nsteps,
+  wavelet->transform2d (value, temp, hsize, vsize, nsteps,
 			 symmetric);
 
   // linearize data
@@ -167,14 +163,14 @@ void WaveletTransform::transform (Image *image, Wavelet *newWavelet,
 
 /*---------------------------------------------------------------------------*/
 
-void WaveletTransform::invert (Image *invertedImage)
+void WaveletTransform::invert (Real* value, int hsize, int vsize)
 {
   Real *temp = new Real [hsize*vsize];
 
   // put data in Mallat format
   linearToMallat (temp);
 
-  wavelet->invert2d (temp, invertedImage->value, hsize, vsize,
+  wavelet->invert2d (temp, value, hsize, vsize,
 		      nsteps, symmetric);
 
   delete [] temp;

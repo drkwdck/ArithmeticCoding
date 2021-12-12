@@ -14,9 +14,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <new.h>
 #include <math.h>
-#include <assert.h>
 #include "global.hh"
 /*---------------------------------------------------------------------------*/
 #ifdef DEBUG
@@ -38,7 +36,6 @@ void no_more_memory ()
 void init()
 {
   // Call no_more_memory when unable to malloc
-  set_new_handler (no_more_memory);
   
 #ifdef DEBUG
   debug_file = fopen ("debug.log", "w+");
@@ -79,7 +76,6 @@ volatile void error (char *format, ...)
    }
 #endif
 
-   assert(0);
 }
 
 /*---------------------------------------------------------------------------*/

@@ -31,8 +31,8 @@
 #define _CODER_
 /*---------------------------------------------------------------------------*/
 #include <assert.h>
-#include <iostream.h>
-#include <iomanip.h>
+#include <iostream>
+#include <iomanip>
 #include "iHisto.h"
 #include "BitIO.h"
 #include "Arith.h"

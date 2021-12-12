@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <process.h>
 #include "lib/wavelet.hh"
-#include "lib/image.hh"
 #include "lib/transform.hh"
 //для избежания переполнения:	MAX_FREQUENCY * (TOP_VALUE+1) < ULONG_MAX 
 //число MAX_FREQUENCY должно быть не менее, чем в 4 раза меньше TOP_VALUE 
@@ -223,24 +222,23 @@ void decode(void)
 
 void wavelet_transform(const char* file_path)
 {
-    auto image = new Image(file_path);
-    auto hsize = image->hsize;
-    auto vsize = image->vsize;
-    auto nStages = 1;
+    //auto hsize = image->hsize;
+    //auto vsize = image->vsize;
+    //auto nStages = 1;
 
-    auto filter_set = new FilterSet();
-    auto wavelet = new Wavelet(filter_set);
-    WaveletTransform* transform =
-        new WaveletTransform(wavelet, hsize, vsize, nStages);
+    //auto filter_set = new FilterSet();
+    //auto wavelet = new Wavelet(filter_set);
+    //WaveletTransform* transform =
+    //    new WaveletTransform(wavelet, hsize, vsize, nStages);
 
-    int nSets = transform->nSubbands;
+    //int nSets = transform->nSubbands;
 }
 
 
 
 void _cdecl main(int argc, char** argv)
 {
-    wavelet_transform(argv[2]);
+        wavelet_transform(argv[2]);
 
     printf("\nAlpha version of arithmetic Codec\n");
     if (argc != 4 || argv[1][0] != 'e' && argv[1][0] != 'd')

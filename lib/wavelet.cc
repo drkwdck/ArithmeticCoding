@@ -15,9 +15,7 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <math.h>
-#include <assert.h>
 #include "global.hh"
-#include "image.hh"
 #include "wavelet.hh"
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/

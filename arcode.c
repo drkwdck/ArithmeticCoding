@@ -30,9 +30,13 @@ FILE *in, *out;
 void start_model(void)
 { // изначально все символы в сообщении считаем равновероятными 
 	int i;
+
 	for (i = 0; i <= NO_OF_SYMBOLS; i++)
+	{
 		cum_freq[i] = i;
+	}
 }
+
 inline void update_model(int symbol) 
 { 
 	if (cum_freq[NO_OF_SYMBOLS]==MAX_FREQUENCY) 
@@ -51,10 +55,12 @@ inline void update_model(int symbol)
 }
 inline int input_bit(void) // ввод 1 бита из сжатого файла
 {
-  int t;      
+	int t;
+
 	if (bits_to_go == 0)
 	{
 		buffer = getc(in);	// заполняем буфер битового ввода
+
 		if (buffer == EOF)	// входной поток сжатых данных исчерпан
 		{
 			// Причина попытки дальнейшего чтения: следующим 
@@ -65,15 +71,21 @@ inline int input_bit(void) // ввод 1 бита из сжатого файла
 			// биты — "мусор", реально не несут никакой 
 			// информации и их можно выдать любыми
 			garbage_bits++; 
+
 			if (garbage_bits > BITS_IN_REGISTER - 2)
 			{	// больше максимально возможного числа мусорных битов
 				printf("ERROR IN COMPRESSED FILE ! \n");
 				exit(-1);
 			}
+
 			bits_to_go = 1;
 		}
-		else bits_to_go = 8;
+		else
+		{
+			bits_to_go = 8;
+		}
 	}
+
 	t = buffer&1;
 	buffer >>= 1;
 	bits_to_go--;
@@ -84,6 +96,7 @@ inline void output_bit(int bit) // вывод одного бита в сжат�
 {
   buffer = (buffer>>1) + (bit<<7); // в битовый буфер (один байт)
   bits_to_go--;
+
   if (bits_to_go == 0) // битовый буфер заполнен, сброс буфера
   {
 		putc(buffer, out);
@@ -93,6 +106,7 @@ inline void output_bit(int bit) // вывод одного бита в сжат�
 inline void output_bit_plus_follow(int bit) // вывод одного очередного бита и тех, которые были отложены
 {		
 	output_bit(bit);
+
 	while (bits_to_follow > 0)
 	{
 		output_bit(!bit);
@@ -112,9 +126,14 @@ void done_encoding(void)
 {
 	bits_to_follow++;
 	if ( low < FIRST_QTR )
+	{
         output_bit_plus_follow(0);
-	else 
+	}
+	else
+	{ 
         output_bit_plus_follow(1);
+	}
+
 	putc(buffer>>bits_to_go, out); // записать незаполненный буфер
 }
 
@@ -126,8 +145,11 @@ void start_decoding(void)
   low			= 0;				// нижняя граница интервала
   high			= TOP_VALUE;		// верхняя граница интервала
   value			= 0;				// "ЧИСЛО"
+
   for (i = 0; i < BITS_IN_REGISTER; i++)
+  {
 	  value = (value<<1) + input_bit();
+  }
 }
 
 void encode_symbol(int symbol)
@@ -142,7 +164,9 @@ void encode_symbol(int symbol)
 	for (;;)
 	{	// Замечание: всегда low < high
 		if (high < HALF) // Старшие биты low и high — нулевые (оба)
+		{
 			output_bit_plus_follow(0); //вывод совпадающего старшего бита
+		}
 		else if (low >= HALF) // старшие биты low и high - единичные
 		{	 
 			output_bit_plus_follow(1);	// вывод старшего бита
@@ -159,7 +183,11 @@ void encode_symbol(int symbol)
 			bits_to_follow++;		//откладываем вывод (еще) одного бита
 			// младший бит будет втянут далее
 		}
-		else break;		// втягивать новый бит рано 
+		else
+		{
+			break; // втягивать новый бит рано
+		} 
+
 	    // старший бит в low и high нулевой, втягиваем новый бит в младший разряд 
 		low <<= 1;	// втягиваем 0
 		high <<= 1;

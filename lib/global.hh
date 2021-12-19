@@ -48,6 +48,7 @@ const double MaxReal = 1.0e+100;
 const Real eps = 1.e-8;
 const double MaxReal = 1.0e+100;
 #endif
+#include <math.h>
 
 const Real Pi = (Real)3.14159265358979;
 const Real TwoPi = 2.0 * Pi;

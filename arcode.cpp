@@ -5,6 +5,7 @@
 #include <process.h>
 #include "lib/wavelet.hh"
 #include "lib/transform.hh"
+#include "ImageWrapper.h"
 #include <fstream>
 #include <iostream>
 #include <fstream>
@@ -230,7 +231,7 @@ void decode(void)
 
 void wavelet_transform(const char* file_path)
 {
-
+    auto image = new ImageWrapper(file_path);
     //auto hsize = image->hsize;
     //auto vsize = image->vsize;
     //auto nStages = 1;
